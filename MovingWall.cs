@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class MovingWall : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Transform wall;
+    Vector3 newpos = new Vector3(0, -100, 0);
+    void OnTriggerEnter(Collider other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if(other.tag == "Player")
+        {
+            wall.SetPositionAndRotation(newpos, Quaternion.EulerAngles(Vector3.zero));
+        }
     }
 }

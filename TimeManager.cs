@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
-using UnityEditor;
-using System.IO;
-public class CheckpointManager : MonoBehaviour
+using UnityEngine.UI;
+public class TimeManager : MonoBehaviour
 {
     const string DLL_NAME = "EnginesDLLTut";
 
@@ -25,29 +24,24 @@ public class CheckpointManager : MonoBehaviour
 
     private static extern int GetNumCheckpoints();
 
-    public GameObject currcheckpoint;
-    CharacterController ferret;
-    float currTime = 0.0f;
+    Text checkpointtime;
     public int checkpointnumber;
+    float times;
+    double round;
 
+    // Start is called before the first frame update
     void Start()
     {
-        ferret = FindObjectOfType<CharacterController>();
+        checkpointtime = GetComponent<Text>();
+        checkpointtime.text = ("0.0s");
     }
 
+    // Update is called once per frame
     void Update()
-    {
-        currTime += Time.deltaTime;
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            Debug.Log(currcheckpoint.name + " hit!");
-            SaveCheckpointTime(currTime);
-            Debug.Log(GetCheckpointTime(checkpointnumber));
-        }
+    { 
+        //times = GetCheckpointTime(checkpointnumber);
+        //round = System.Math.Round(times, 2);
+        //checkpointtime.text = (round + "s");
     }
 
     //void OnDestroy()

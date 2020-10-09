@@ -1,14 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Move : MonoBehaviour
 {
-    public Transform camera;
+    const string DLL_NAME = "EnginesDLLTut";
+
     public CharacterController movecontrol;
     public float playerspeed = 4f;
     public float smoothtime = 0.1f;
-    float smoothvel;
+    public float vel;
+    public GameObject player;
+    public GameObject currcheckpoint;
 
     void Start()
     {
@@ -19,14 +23,28 @@ public class Move : MonoBehaviour
     {
         float hori = Input.GetAxisRaw("Horizontal");
         float vert = Input.GetAxisRaw("Vertical");
-        Vector3 dir = new Vector3(hori, 0.0f, vert).normalized;
-        if (dir.magnitude >= 0.1)
+        //changing movement since the smoothing was messing with the gravity
+        //movement and gravity exist, even if it's basically drunk ferret sim now
+        if (movecontrol.isGrounded)
         {
-            float tarA = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg + camera.eulerAngles.y;
-            float smooth = Mathf.SmoothDampAngle(transform.eulerAngles.y, tarA, ref smoothvel, smoothtime);
-            transform.rotation = Quaternion.Euler(0f, smooth, 0f);
-            Vector3 movedir = Quaternion.Euler(0f, tarA, 0f) * Vector3.forward;
-            movecontrol.Move(movedir * playerspeed * Time.deltaTime);
+            vel = -9.8f * Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                vel = 4.0f;
+            }
         }
+        if (vel <= -30)
+        {
+            //This line just kept having the ferret stop rather than go to the checkpoint, so I guess if you fall off you just restart
+            //player.transform.position = currcheckpoint.transform.position;
+            SceneManager.LoadScene("PlayScene");
+        }
+        else
+        {
+            vel -= 9.8f * Time.deltaTime;
+        }
+        Vector3 move = new Vector3(hori, vel, vert).normalized;
+        player.transform.rotation = Quaternion.RotateTowards(player.transform.rotation, Quaternion.LookRotation(move), 45 * Time.deltaTime);
+        movecontrol.Move(move * playerspeed * Time.deltaTime);
     }
 }
