@@ -1,0 +1,18 @@
+Sorry I almost forgot to add this which is why it was added so late
+I feel bad because I forgot the links the youtube videos
+References/Code I looked at:
+
+Unity Documentation for things like
+- character controllers
+- movement
+- scene managers
+- rigid bodies (I don't think I used code from it but I don't remember)
+- files (didn't end up using)
+
+Nick's .DLL code from the tutorial
+
+Youtube for things like
+- Highscore boards (didn't work out)
+- camera movement
+- How the UI elements can be used in Unity (text objects, panels, canvas, etc)
+
